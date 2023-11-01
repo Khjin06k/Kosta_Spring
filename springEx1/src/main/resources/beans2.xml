@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+               https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="outputter" class="com.codingrecipe.springEx1.sample2.FileOutputter">
+        <constructor-arg value="out.txt"/>
+    </bean>
+    <bean id="messageBean" class="com.codingrecipe.springEx1.sample2.MessageBeanImpl">
+        <property name= "name" value="길동아"/>
+        <property name= "greeting" value="안녕"/>
+        <property name="outputter" ref="outputter"/>
+    </bean>
+</beans>

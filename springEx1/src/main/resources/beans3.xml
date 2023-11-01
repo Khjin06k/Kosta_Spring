@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+               https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 경우1 -->
+    <bean id="department" class="com.codingrecipe.springEx1.sample3.Department">
+        <constructor-arg index="0" value="개발부"/>
+        <constructor-arg index="1" value="서울특별시"/>
+    </bean>
+
+    <bean id="employ" class="com.codingrecipe.springEx1.sample3.EmployImpl">
+        <constructor-arg name= "id" value="111"/>
+        <constructor-arg name= "name" value="길동이"/>
+        <property name="department" ref="department"/>
+    </bean>
+
+    <!-- 경우2 -->
+    <!--<bean id="employ" class="com.codingrecipe.springEx1.sample3.EmployImpl">
+        <property name= "id" value="222"/>
+        <property name= "name" value="율동이"/>
+        <property name="department">
+            <bean id="department" class="com.codingrecipe.springEx1.sample3.Department">
+                <property name="name" value="개발부서"/>
+                <property name="location" value="서울특별시"/>
+            </bean>
+        </property>
+    </bean>-->
+
+</beans>
