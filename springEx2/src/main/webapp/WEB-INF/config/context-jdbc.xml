@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Springframework(spring jdbc)에서 제공해주는 데이터 소스 -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <!-- 속성이 4개 존재, setter 함수가 존재 >> property 사용 -->
+        <!-- DB 사용을 위한 설정 진행 -->
+        <property name="driverClassName" value="org.mariadb.jdbc.Driver"/>
+        <property name="url" value="jdbc:mariadb://localhost:3306/testdb"/>
+        <property name="username" value="root"/>
+        <property name="password" value="admin1234"/>
+
+    </bean>
+</beans>

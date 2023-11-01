@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+
+    <!-- mybatis spring 사용한 것-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 2개의 속성이 존재 -->
+        <!-- 매퍼의 위치를 알려줌 -->
+        <property name="dataSource" ref="dataSource"/>
+        <!-- sql 경로 설정 -->
+        <property name="mapperLocations">
+            <list><value>classpath*:com/codingrecipe/springex2/sql/member.xml</value></list>
+        </property>
+        <!-- dto 경로 설정 -->
+        <property name="typeAliasesPackage" value="com.codingrecipe.springex2.dto"/>
+    </bean>
+
+    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="sqlSessionFactory"/>
+    </bean>
+    <jdbc:embedded-database id="dataSource"/>
+</beans>
