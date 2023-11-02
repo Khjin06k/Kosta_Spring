@@ -2,17 +2,22 @@ package com.codingrecipe.springex2.service;
 
 import com.codingrecipe.springex2.dao.MemberDao;
 import com.codingrecipe.springex2.dto.Member;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class MemberServiceImpl implements MemberService{
+
+    @Autowired
     private MemberDao memberDao;
 
-    public MemberDao getMemberDao() {
+    /*public MemberDao getMemberDao() {
         return memberDao;
     }
 
     public void setMemberDao(MemberDao memberDao) {
         this.memberDao = memberDao;
-    }
+    }*/
 
     @Override
     public Member selectMember(String id) throws Exception {

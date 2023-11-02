@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.codingrecipe.springex2.dto.Member" %>
 <%
-	String id=(String)session.getAttribute("id");
+	Member member=(Member)session.getAttribute("member");
 %>    
 <!DOCTYPE html>
 <style>
@@ -24,10 +25,10 @@ a {text-decoration:none;}
 		<a href="allaccountinfo" style="color: black">전체계좌조회</a>&nbsp;&nbsp;
 	</div>
 	<div style="float:right; margin-right:10px;">
-		<%if(id==null) { %>
+		<%if(member==null) { %>
 			<a href="login" style="color: black">로그인</a>&nbsp;&nbsp;
 		<%} else { %>
-			<%=id %>님 환영합니다.&nbsp;&nbsp;<a href="logout">로그아웃</a>&nbsp;&nbsp;
+			<%=member.getName() %>님 환영합니다.&nbsp;&nbsp;<a href="logout">로그아웃</a>&nbsp;&nbsp;
 		<%} %>
 		<a href="join" style="color: black">회원가입</a>&nbsp;&nbsp;
 	</div>

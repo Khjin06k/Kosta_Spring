@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -38,12 +39,9 @@ public class AccountController {
     @RequestMapping(value = "/makeaccount", method = RequestMethod.POST)
     public String makeAccount(@ModelAttribute Account acc, Model model){
         try{
-            System.out.println("2222" + acc.getId());
             accountService.makeAccount(acc);
-            System.out.println("1111" + acc.getId());
-            //Account scout = accountService.accountInfo(acc.getId());
             model.addAttribute("acc", acc);
-            return "accountInfo";
+            return "accountinfo";
         }catch (Exception e){
             e.printStackTrace();
             System.out.println(e.getMessage());
@@ -66,12 +64,9 @@ public class AccountController {
 
             // 출금 로직 진행 및 param 생성
             acc.setBalance(acc.getBalance()+balance);
-            Map<String, Object> param = new HashMap<>();
-            param.put("id", id);
-            param.put("balance", acc.getBalance());
 
             // 금액 업데이트 진행
-            accountService.updateAccountBalance(param);
+            accountService.updateAccountBalance(acc);
             model.addAttribute("acc", acc);
             return "accountinfo";
         }catch (Exception e){
@@ -82,6 +77,37 @@ public class AccountController {
             return "error";
         }
     }
+
+    /* ModelAndView : Model과 View를 동시에 넘겨주는 것으로 아래와 같이 다르게 작성할 수 있음
+
+    @PostMapping("/deposit")
+    public ModelAndView deposit(@RequestParam String id, @RequestParam Integer balance){
+        ModelAndView mav = new ModelAndView();
+        try{
+            // 계좌 조회
+            Account acc = accountService.selectAccount(id);
+
+            // 출금 로직 진행 및 param 생성
+            acc.setBalance(acc.getBalance()+balance);
+            // acc.deposit(balance);로 짜여있는 메서드 사용해도 됨
+            Map<String, Object> param = new HashMap<>();
+            param.put("id", id);
+            param.put("balance", acc.getBalance());
+
+            // 금액 업데이트 진행
+            accountService.updateAccountBalance(param);
+
+            // ModelAndView를 이용해서 넘겨줄 수도 있음
+            mav.addObject("acc", acc);
+            mav.setViewName("accountinfo");
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+            System.out.println(e.getCause());
+            mav.addObject("err", "에러 발생");
+            mav.setViewName("error");
+        }
+    }*/
 
     @GetMapping("/withdraw")
     public String withdraw(){
@@ -94,14 +120,8 @@ public class AccountController {
             // 계좌 조회
             Account acc = accountService.selectAccount(id);
 
-            // 출금 로직 진행 및 param 생성
-            acc.setBalance(acc.getBalance()-balance);
-            Map<String, Object> param = new HashMap<>();
-            param.put("id", id);
-            param.put("balance", acc.getBalance());
-
             // 금액 업데이트
-            accountService.updateAccountBalance(param);
+            accountService.updateAccountBalance(acc);
 
             model.addAttribute("acc", acc);
             return "accountinfo";

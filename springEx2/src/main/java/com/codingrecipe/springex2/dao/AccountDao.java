@@ -8,6 +8,6 @@ import java.util.Map;
 public interface AccountDao {
     void insertAccount(Account acc) throws  Exception;
     Account selectAccount(String id) throws Exception;
-    void updateAccountBalance(Map<String, Object> param) throws Exception;
+    void updateAccountBalance(Account acc) throws Exception;
     List<Account> selectAccountList() throws Exception;
 }

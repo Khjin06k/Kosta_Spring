@@ -50,24 +50,28 @@
     <!-- -->
 
     <!-- accountDao에서 sqlSessionTemplate을 사용하기 위한 설정-->
-    <beans:bean id="accountDao" class="com.codingrecipe.springex2.dao.AccountDaoImpl">
-        <!-- DaoImpl에서 사용하는 이름 -->
+    <!-- @Repository를 사용하기 때문에 삭제 가능-->
+    <!--<beans:bean id="accountDao" class="com.codingrecipe.springex2.dao.AccountDaoImpl">
+        &lt;!&ndash; DaoImpl에서 sqlSessionTemplate 사용하는 이름 &ndash;&gt;
         <beans:property name="sqlSessionTemplate" ref="sqlSessionTemplate"/>
-    </beans:bean>
+    </beans:bean>-->
 
     <!-- accountService에서 accountDao 사용하기 위한 설정 -->
-    <beans:bean id="accountService" class="com.codingrecipe.springex2.service.AccountServiceImpl">
-        <beans:property name="accountDao" ref="accountDao"/>
-    </beans:bean>
+    <!-- @Service를 사용하기 때문에 삭제 가능-->
+    <!--<beans:bean id="accountService" class="com.codingrecipe.springex2.service.AccountServiceImpl">
+        &lt;!&ndash;<beans:property name="accountDao" ref="accountDao"/>&ndash;&gt;
+    </beans:bean>-->
 
+    <!--
+    @Repository, @Service를 통해 빈을 생성했기 때문에 작성 생략이 가능
     <beans:bean id="memberDao" class="com.codingrecipe.springex2.dao.MemberDaoImpl">
-        <!-- DaoImpl에서 사용하는 이름 -->
+        &lt;!&ndash; DaoImpl에서 사용하는 sqlSessionTemplate 이름 &ndash;&gt;
         <beans:property name="sqlSessionTemplate" ref="sqlSessionTemplate"/>
     </beans:bean>
 
-    <!-- memberService에서 accountDao 사용하기 위한 설정 -->
+    &lt;!&ndash; memberService에서 accountDao 사용하기 위한 설정 &ndash;&gt;
     <beans:bean id="memberService" class="com.codingrecipe.springex2.service.MemberServiceImpl">
         <beans:property name="memberDao" ref="memberDao"/>
-    </beans:bean>
+    </beans:bean>-->
 
 </beans:beans>

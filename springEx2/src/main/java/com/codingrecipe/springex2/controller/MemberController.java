@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -16,13 +17,16 @@ public class MemberController {
     @Autowired
     private MemberService memberService;
 
+    @Autowired
+    private HttpSession session; // 실행되는 시점에 이미 생성이 되어 있기 때문에 Autowired를 사용해서 쓸 수 있는 것
+
     @GetMapping("/login")
     public String login(){
         return "login";
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam String id, @RequestParam String password, HttpSession session, Model model){
+    public String login(@RequestParam String id, @RequestParam String password, Model model){
         try{
             Member member = memberService.selectMember(id);
             System.out.println(member.getPassword());
@@ -30,7 +34,8 @@ public class MemberController {
                 model.addAttribute("err", "로그인 실패");
                 return "error";
             }
-            session.setAttribute("id", id);
+            member.setPassword(""); // 세션에 넣기 전에 비밀번호는 삭제
+            session.setAttribute("member", member);
             return "main";
         }catch (Exception e){
             e.printStackTrace();
@@ -47,10 +52,7 @@ public class MemberController {
     }
 
     @PostMapping("/join")
-    public String join(@RequestParam String id, @RequestParam String name,
-                       @RequestParam String password, @RequestParam String email,
-                       @RequestParam String address, Model model){
-        Member member = new Member(id, name, password, email, address);
+    public String join(@ModelAttribute Member member, Model model){
         try{
             memberService.insertMember(member);
             return "login";
@@ -64,8 +66,8 @@ public class MemberController {
     }
 
     @GetMapping("/logout")
-    public String logout(HttpSession session){
-        session.removeAttribute("id");
+    public String logout(){
+        session.removeAttribute("member");
         return "main";
     }
 }

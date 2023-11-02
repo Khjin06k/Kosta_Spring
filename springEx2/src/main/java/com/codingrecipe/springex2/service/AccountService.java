@@ -9,7 +9,7 @@ public interface AccountService {
     void makeAccount(Account acc) throws Exception;
     Account selectAccount(String id) throws Exception;
 
-    void updateAccountBalance(Map<String, Object> param) throws Exception;
+    void updateAccountBalance(Account acc) throws Exception;
 
     List<Account> selectAccountList() throws Exception;
 }
