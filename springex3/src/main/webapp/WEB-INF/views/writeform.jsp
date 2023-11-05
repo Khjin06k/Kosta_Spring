@@ -26,6 +26,18 @@ table {
 	text-align: center;
 }
 </style>
+	<script>
+		window.onload = function(){
+			const fileDom = document.querySelector("#file");
+			const imageBox = document.querySelector("#image-box");
+
+			fileDom.addEventListener('change', ()=>{
+				const imageSrc = URL.createObjectURL(fileDom.files[0]);
+				console.log(imageSrc);
+				imageBox.src = imageSrc;
+			})
+		}
+	</script>
 </head>
 <body>
 	<section id="./writeForm">
@@ -49,7 +61,10 @@ table {
 				</tr>
 				<tr>
 					<td class="td_left"><label for="file">이미지 파일 첨부</label></td>
-					<td class="td_right"><input name="file" type="file" id="file" accept="image/*"/></td>
+
+					<td class="td_right"><input name="file" type="file" id="file" accept="image/*"/>
+						<img id="image-box" width="100px" height="100px" src="img/noImage.png"/><br/>
+					</td>
 				</tr>
 			</table>
 			<section id="commandCell">

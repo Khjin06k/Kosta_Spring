@@ -5,10 +5,7 @@ import com.kosta.board.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
@@ -65,5 +62,20 @@ public class MemberController {
     public String logout(){
         httpSession.removeAttribute("user");
         return "main";
+    }
+
+    // TODO : 아이디 중복확인
+    @PostMapping("/idcheck")
+    @ResponseBody
+    public String idCheck(@RequestParam String id){
+        try{
+            Boolean select = memberService.checkId(id);
+            System.out.println(select);
+            if(select) return String.valueOf(select);
+            else return id;
+        }catch (Exception e){
+            e.printStackTrace();
+            return "error";
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.kosta.board.controller;
 
 import com.kosta.board.dto.Board;
+import com.kosta.board.dto.Member;
 import com.kosta.board.dto.PageInfo;
 import com.kosta.board.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +12,18 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class BoardController {
     @Autowired
     private BoardService boardService;
+
+    @Autowired
+    private HttpSession session;
 
     // TODO : 게시글 조회 관련
     // Integer는 null로 대체가 가능하지만, int는 null이 불가능.
@@ -48,6 +55,9 @@ public class BoardController {
     public String detail(@RequestParam Integer num, Model model){
         try{
             Board board = boardService.selectBoard(num);
+            Member user = (Member) session.getAttribute("user");
+            Boolean select = boardService.selectBoardLike(user.getId(), num);
+            model.addAttribute("select", select);
             model.addAttribute("board", board);
             return "detailform";
         }catch (Exception e){
@@ -123,8 +133,8 @@ public class BoardController {
 
 
     // TODO : 게시글 삭제 로직 구현
-    @GetMapping("/boarddelete")
-    public String boardDelete(@RequestParam Integer num, @RequestParam(value = "page", required = false, defaultValue = "1") Integer page, Model model){
+    @GetMapping("/boarddelete/{num}/{page}")
+    public String boardDelete(@PathVariable Integer num, @PathVariable Integer page, Model model){
         try{
             boardService.deleteBoard(num);
             PageInfo pageInfo = new PageInfo();
@@ -141,4 +151,46 @@ public class BoardController {
         }
     }
 
+    // TODO : 좋아요
+    @PostMapping("/like")
+    @ResponseBody // 리턴으로 주는 것이 뷰가 아닌 데이터
+    public String boardLike(@RequestParam Integer num){
+        Member user = (Member)session.getAttribute("user");
+        try{
+            if(user==null) throw new Exception("로그인하세요");
+            Boolean select = boardService.selectBoardLike(user.getId(), num);
+            System.out.println(select);
+            return String.valueOf(select);
+        }catch (Exception e){
+            e.printStackTrace();
+            return "error";
+        }
+    }
+
+    @PostMapping("/boardsearch")
+    public String boardList(@RequestParam String type, @RequestParam String keyword,
+                            @RequestParam Integer page, Model model){
+
+        try{
+            // 검색에 대한 정보
+            System.out.println(type);
+            System.out.println(keyword);
+            Map<String, Object> param = new HashMap<>();
+            param.put("type", type);
+            param.put("keyword", keyword);
+
+            // 페이지에 대한 정보
+            PageInfo pageInfo = new PageInfo();
+            pageInfo.setCurPage(page);
+            List<Board> boardList = boardService.searchBoardList(pageInfo, param);
+            model.addAttribute("pageInfo", pageInfo);
+            model.addAttribute("boardList", boardList);
+            return "boardlist";
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+            System.out.println(e.getCause());
+            return "error";
+        }
+    }
 }

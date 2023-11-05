@@ -19,16 +19,17 @@
 </head>
 <body>
 <div id="header">
-<img src="resources/img/logo.png" width="100px" height="100px" alt="">&nbsp;
+<img src="img/logo.png" width="100px" height="100px" alt="">&nbsp;
 <c:choose>
 	<c:when test="${user eq Empty}">
 		<a href="login">로그인</a>
+		<a href="join">회원가입</a>&nbsp;&nbsp;&nbsp;
 	</c:when>
 	<c:otherwise>
 		<b>${user.name }</b>&nbsp;&nbsp;<a href="logout">로그아웃</a>
 	</c:otherwise>
 </c:choose>&nbsp;&nbsp;&nbsp;
-<a href="join">회원가입</a>&nbsp;&nbsp;&nbsp;
+
 <a href="boardlist">게시판목록</a><br><br>
 </div>
 </body>

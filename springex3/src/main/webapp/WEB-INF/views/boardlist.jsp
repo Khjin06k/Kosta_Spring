@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,9 +28,11 @@ table { margin: auto; width: 800px }
 </style>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script>
-	
+	console.log($('#keyword').val());
+
 	function callBtn(num) {
-		var keyword = $("#keyword").val(); 
+		var keyword = $("#keyword").val();
+		console.log(type);
 		if(keyword!=null && keyword.trim()!='') {
 			$('#page').val(num);
 			$('#searchform').submit();
@@ -40,15 +44,15 @@ table { margin: auto; width: 800px }
 
 <h3>글 목록 &nbsp;&nbsp;
 <c:if test="${user ne Empty }">
-	<a href="boardwrite">글쓰기</a>
+	<a href="/boardwrite">글쓰기</a>
 </c:if>
 
 </h3>
 
-<form action="boardsearch" method="post" id="searchform">			
+<form action="/boardsearch" method="post" id="searchform">
 	<input type="hidden" name="page" id="page" value="1">		
 <h5>
-	<select name="type">
+	<select id="type" name="type">
 		<option value="all">선택</option>
 		<option value="title" ${type eq 'title'? 'selected':''}>제목</option>
 		<option value="writer" ${type eq 'writer'? 'selected':''}>작성자</option>
@@ -61,19 +65,19 @@ table { margin: auto; width: 800px }
 		<table>
 			<tr id="tr_top"><th>번호</th><th>제목</th><th>작성자</th><th>날짜</th><th>조회수</th><th>삭제</th></tr>
 			<c:forEach items="${boardList }" var="board">
-				<tr>
-					<td>${board.num }</td>
-					<td><a href="boarddetail?num=${board.num}">${board.title }</a></td>
-					<td>${board.writer }</td>
-					<td>${board.writedate  }</td>
-					<td>${board.viewcount  }</td>
-					<td>
+			<tr>
+				<td>${board.num }</td>
+				<td><a href="boarddetail?num=${board.num}">${board.title }</a></td>
+				<td>${board.writer }</td>
+				<td>${board.writedate  }</td>
+				<td>${board.viewcount  }</td>
+				<td>
 					<c:if test="${user.id == board.writer }">
-						<a href="boarddelete?num=${board.num }&page=${pageInfo.curPage}">삭제</a>
+						<a href="/boarddelete/${board.num }/${pageInfo.curPage}">삭제</a>
 					</c:if>
-					</td>
-				</tr>
-			</c:forEach>
+				</td>
+			</tr>
+		</c:forEach>
 		</table>
 		<div id="emptyArea">
 			<c:choose>  

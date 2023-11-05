@@ -34,17 +34,17 @@ table {
 $(function() {
 	$('#heart').click(function() {
 		$.ajax({
-			url:'like',
+			url:'/like',
 			type:'post',
-			dataType: 'json',
 			data:{'num':'<c:out value="${board.num}"/>'},
 			success: function(res) {
-				if(res.select) {
-					$("#heart").attr("src","image?file=redheart.png")
+				if(res==="true") {
+					$("#heart").attr("src","/img/redheart.png")
+					$("#likecount").text(+$("#likecount").text()+1);
 				} else {
-					$("#heart").attr("src","image?file=blackheart.png")
+					$("#heart").attr("src","img/blackheart.png")
+					$("#likecount").text(+$("#likecount").text()-1);
 				}
-				$("#likecount").text(res.likecount);
 			},
 			error:function(err) {
 				console.log(err);
@@ -82,7 +82,7 @@ $(function() {
 					<td class="td_left"><label>이미지</label></td>
 					<td>
 					<c:if test="${board.fileurl ne null}">
-					<img src="resources/upload/${board.fileurl}" width="100px" height="100px"/>
+					<img src="upload/${board.fileurl}" width="100px" height="100px"/>
 					</c:if>
 					</td>
 				</tr>

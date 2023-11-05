@@ -42,17 +42,17 @@
         }
     </style>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<%--<script type="text/javascript">
+<script type="text/javascript">
 	$(function() {
 		let isIdCheck = false;
 		$("#idcheck").click(function() {
 			$.ajax({
-				url:"idcheck",
+				url:"/idcheck",
 				type:"post",
 				data:{id:$("#id").val()},
 				success:function(res) {
 					console.log(res);
-					if(res=="notexist") {
+					if(res==="true") {
 						isIdCheck=true;
 						alert("사용 가능합니다")
 					} else {
@@ -76,7 +76,7 @@
 			}
 		})
 	})
-</script>   --%>
+</script>
 </head>
 <body>
 <center>

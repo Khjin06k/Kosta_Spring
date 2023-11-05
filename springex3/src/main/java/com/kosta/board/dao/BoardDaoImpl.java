@@ -16,12 +16,6 @@ public class BoardDaoImpl implements BoardDao {
 	SqlSessionTemplate sqlSessionTemplate;
 
 	@Override
-	public void insertBoard(Board board) throws Exception {
-		sqlSessionTemplate.insert("mapper.board.insertBoard", board);
-	}
-
-
-	@Override
 	public List<Board> selectBoardList(Integer row) throws Exception {
 		return sqlSessionTemplate.selectList("mapper.board.selectBoardList", row);
 	}
@@ -38,6 +32,10 @@ public class BoardDaoImpl implements BoardDao {
 		return sqlSessionTemplate.selectOne("mapper.board.selectBoard",num);
 	}
 
+	@Override
+	public void insertBoard(Board board) throws Exception {
+		sqlSessionTemplate.insert("mapper.board.insertBoard", board);
+	}
 
 	@Override
 	public void updateBoard(Board board) throws Exception {
@@ -48,6 +46,23 @@ public class BoardDaoImpl implements BoardDao {
 	@Override
 	public void deleteBoard(Integer num) throws Exception {
 		sqlSessionTemplate.delete("mapper.board.deleteBoard", num);
+	}
+
+	@Override
+	public Integer selectBoardLike(Map<String, Object> param) throws Exception {
+		return sqlSessionTemplate.selectOne("mapper.boardlike.selectBoardLike", param);
+	}
+
+
+	@Override
+	public void insertBoardLike(Map<String, Object> param) throws Exception {
+		sqlSessionTemplate.insert("mapper.boardlike.insertBoardLike", param);
+	}
+
+
+	@Override
+	public void deleteBoardLike(Map<String, Object> param) throws Exception {
+		sqlSessionTemplate.delete("mapper.boardlike.deleteBoardLike", param);
 	}
 
 
@@ -65,24 +80,6 @@ public class BoardDaoImpl implements BoardDao {
 	@Override
 	public void updateBoardViewCount(Integer num) throws Exception {
 		sqlSessionTemplate.update("mapper.board.updateBoardViewCount", num);
-	}
-
-
-	@Override
-	public Integer selectBoardLike(Map<String, Object> param) throws Exception {
-		return sqlSessionTemplate.selectOne("mapper.boardlike.selectBoardLike", param);
-	}
-
-
-	@Override
-	public void insertBoardLike(Map<String, Object> param) throws Exception {
-		sqlSessionTemplate.insert("mapper.boardlike.insertBoardLike", param);
-	}
-
-
-	@Override
-	public void deleteBoardLike(Map<String, Object> param) throws Exception {
-		sqlSessionTemplate.delete("mapper.boardlike.deleteBoardLike", param);
 	}
 
 
@@ -112,4 +109,11 @@ public class BoardDaoImpl implements BoardDao {
 	public FileVo selectFile(Integer num) throws Exception {
 		return sqlSessionTemplate.selectOne("mapper.board.selectFile", num);
 	}
+
+	@Override
+	public void deleteFile(String num) throws Exception {
+		sqlSessionTemplate.delete("mapper.board.deleteFile", num);
+	}
+
+
 }

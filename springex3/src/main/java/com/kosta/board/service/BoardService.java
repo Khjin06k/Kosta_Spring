@@ -18,4 +18,13 @@ public interface BoardService {
     Board updateBoard(Board board, MultipartFile file) throws Exception;
     void deleteBoard(Integer num) throws Exception;
 
+    // 사용자가 글을 선택했는지 여부
+    Boolean isboardList(String userId, Integer boardNum) throws Exception;
+    // 사용자가 좋아요를 눌렀을 경우 처리하고 선택 여부 가져오기
+    Boolean selectBoardLike(String userId, Integer boardNum) throws Exception;
+
+    // 검색기능
+    List<Board> searchBoardList(PageInfo pageInfo, Map<String, Object> param) throws Exception;
+
+
 }

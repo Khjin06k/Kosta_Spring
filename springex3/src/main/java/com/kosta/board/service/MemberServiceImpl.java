@@ -23,4 +23,9 @@ public class MemberServiceImpl implements MemberService{
     public void insertMember(Member member) throws Exception {
         memberDao.insertMember(member);
     }
+
+    @Override
+    public Boolean checkId(String id) throws Exception {
+        return memberDao.selectMember(id)==null;
+    }
 }

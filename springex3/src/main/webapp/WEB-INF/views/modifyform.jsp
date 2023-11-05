@@ -26,12 +26,24 @@ table {
 	text-align: center;
 }
 </style>
+	<script>
+		window.onload = function(){
+			const fileDom = document.querySelector("#file");
+			const imageBox = document.querySelector("#image-box");
+
+			fileDom.addEventListener('change', ()=>{
+				const imageSrc = URL.createObjectURL(fileDom.files[0]);
+				imageBox.src = imageSrc;
+			})
+		}
+	</script>
 </head>
 <body>
 	<section id="./writeForm">
 		<h2>게사판글수정</h2>
 		<form action="boardmodify" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="num" value="${board.num}"/>
+			<input type="hidden" name="num" value="${board.num}"/>
+			<input type="hidden" name="fileurl" value="${board.fileUrl}"/>
 
 			<table border="1">
 				<tr>
@@ -50,8 +62,12 @@ table {
 							cols="40" rows="15" >${board.content}</textarea></td>
 				</tr>
 				<tr>
-					<td class="td_left"><label for="file">이미지 파일 첨부</label></td>
-					<td class="td_right"><input name="file" type="file" id="file" accept="image/*"/></td>
+					<td class="td_left"><label for="file">이미지 파일 첨부</label></td>=
+					<td class="td_right">
+						<img id="image-box" width="100px" height="100px" src="img/${board.fileurl}"/><br/>
+						<input name="file" type="file" id="file" accept="image/*"/>
+					</td>
+
 				</tr>
 			
 			</table>

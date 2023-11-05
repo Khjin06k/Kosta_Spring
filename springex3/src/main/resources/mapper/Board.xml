@@ -45,9 +45,16 @@
 	</delete>
 	
 	<select id="searchBoardList" parameterType="hashmap" resultType="Board">
-		select * from board
-		where ${type} like '%${keyword}%' order by num desc
-		limit #{row},10
+		SELECT * FROM board
+		WHERE
+		<if test="type == 'all'">
+			(title LIKE '%${keyword}%' OR writer LIKE '%${keyword}%' OR content LIKE '%${keyword}%')
+		</if>
+		<if test="type != 'all'">
+			${type} LIKE '%${keyword}%'
+		</if>
+		ORDER BY num DESC
+		LIMIT #{row}, 10
 	</select>
 	
 	<select id="searchBoardCount" parameterType="hashmap" resultType="Integer">
@@ -82,6 +89,12 @@
 			insert into file (directory, name, size, contenttype, uploaddate, data) values(#{directory}, #{name}, #{size}, #{contenttype}, curdate(), #{data})
 		]]>
 	</insert>
+
+	<delete id="deleteFile" parameterType="String">
+		<![CDATA[
+			delete from file  where num=#{num}
+		]]>
+	</delete>
 
 	<select id="selectFile" parameterType="Integer" resultType="FileVo">
 		<![CDATA[
