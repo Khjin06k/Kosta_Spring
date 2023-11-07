@@ -8,16 +8,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
 @Controller
+@RequestMapping("/clinic")
 public class SeoulApiController {
 
     @Autowired
     private SeoulApiService seoulApiService;
 
-    @GetMapping(value={"/clinic/{page}", "/clinic"})
+    @GetMapping(value={"/{page}", ""})
     public String animalClinicList(@PathVariable(required = false) Integer page, Model model){
         if(page==null) page=1;
 
